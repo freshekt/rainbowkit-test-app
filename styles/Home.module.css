@@ -1,10 +1,24 @@
+@font-face {
+  font-family: 'Organetto'; /*a name to be used later*/
+  src: url('../assets/fonts/Fontspring-DEMO-organetto-cndregular.otf'); /*URL to font*/
+}
 .container {
-  padding: 0 2rem;
+  padding: 15px;
 }
 
 .main {
-  min-height: 100vh;
-  padding: 4rem 0;
+  width: 512px;
+  height: 722px;
+  padding: 25px;
+  margin: auto;
+  margin-top: calc((100vh - 722px) / 2);
+  background: linear-gradient(
+    153.3deg,
+    var(--box-gradient-start) 0%,
+    var(--box-gradient-end) 100%
+  );
+  box-shadow: 0px 4px 76.1px 0px var(--box-shadow-color);
+  border-radius: 15px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -12,91 +26,127 @@
   align-items: center;
 }
 
-.footer {
+.header {
+  height: 110px;
+  width: 100%;
   display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
 }
 
-.footer a {
+.primaryButton {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-grow: 1;
-}
-
-.title a {
-  color: #0d76fc;
-  text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
-}
-
-.title {
-  margin: 3rem 0;
-  line-height: 1;
-  font-size: 2.5rem;
-}
-
-.title,
-.description {
+  justify-content: center;
+  height: 41px;
+  font-family: 'Organetto';
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27.06px;
+  padding: 5px 25px;
+  font-weight: 400;
   text-align: center;
+  background: var(--secondary-color);
+  border-radius: 14px;
+  border: none;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  margin: 10px 0;
+}
+.primaryButton div {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
 }
 
-.description {
-  margin: 0 0 2rem;
-  line-height: 1.5;
-  font-size: 1.5rem;
+.primaryButton:disabled {
+  opacity: 0.5;
 }
 
-.grid {
+.block {
+  flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
-}
-
-.card {
-  margin: 1rem;
-  padding: 1.5rem;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 463px;
+  height: 290px;
+  border-radius: 15px;
+  border: 1px;
+  opacity: 0px;
+  background: linear-gradient(
+    111.42deg,
+    var(--primary-gradient-start) 0%,
+    var(--primary-gradient-end) 100%
+  );
+  border: 1px solid;
+  margin-bottom: 20px;
+  border-image-source: linear-gradient(
+    111.42deg,
+    var(--secondary-gradient-start) 0%,
+    var(--secondary-gradient-end) 100%
+  );
+  padding: 10px;
+  font-family: Arial;
+  font-size: 20px;
+  font-weight: 100;
+  line-height: 35px;
   text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 350px;
+  color: var(--secondary-color);
+}
+.block input[type='text'] {
+  background: none;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--secondary-color);
+  line-height: 40px;
+  font-size: 24px;
+  box-shadow: none;
+
+  color: var(--secondary-color);
 }
 
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0d76fc;
-  border-color: #0d76fc;
+.note {
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.1px;
+  text-align: left;
 }
 
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.2rem;
+.block input[type='text']:focus {
+  outline: none;
+}
+.block input::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: var(--placeholder-color);
+}
+.block input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: var(--placeholder-color);
+}
+.block input:-ms-input-placeholder {
+  /* IE 10+ */
+  color: var(--placeholder-color);
+}
+.block input:-moz-placeholder {
+  /* Firefox 18- */
+  color: var(--placeholder-color);
 }
 
-.card p {
-  margin: 0;
-  font-size: 1.2rem;
-  line-height: 1.5;
+.blockHeader {
+  font-family: 'Organetto';
+  font-size: 32px;
+  font-weight: 200;
+  line-height: 43.3px;
+  text-align: left;
+  color: var(--secondary-color);
+}
+
+.blockHeader span {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 @media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
 }

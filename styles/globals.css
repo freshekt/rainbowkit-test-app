@@ -1,3 +1,16 @@
+:root {
+  --placeholder-color: rgba(255, 255, 255, 0.15);
+  --primary-color: rgba(0, 112, 254, 1);
+  --primary-gradient-start: #2485ff;
+  --primary-gradient-end: #0674ff;
+  --secondary-color: rgba(255, 255, 255, 1);
+  --secondary-gradient-start: rgba(255, 255, 255, 0.3);
+  --secondary-gradient-end: rgba(255, 255, 255, 0.05);
+  --box-shadow-color: rgba(0, 112, 254, 1);
+  --box-gradient-start: #0081fe;
+  --box-gradient-end: #0061fe;
+}
+
 html,
 body {
   padding: 0;
