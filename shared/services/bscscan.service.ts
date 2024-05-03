@@ -5,32 +5,59 @@ import { ContractModel } from '../models/contract.model';
 
 const URL = 'https://api-testnet.bscscan.com/api';
 
+const PROVIDER_URI = 'https://data-seed-prebsc-1-s1.binance.org:8545';
+
 /**
- * Retrieves the ABI (Application Binary Interface) for a given Ethereum contract address from the BSCScan API.
+ * Retrieves the contract ABI (Application Binary Interface) for the specified contract ID using the provided API key.
  *
- * @param address - The Ethereum contract address to retrieve the ABI for.
- * @returns A Promise that resolves to a `ContractModel` instance containing the contract ABI and a Web3 contract instance.
+ * @param contractId - The address of the Ethereum contract.
+ * @param apiKey - The API key to use for the BSCScan API request.
+ * @returns A Promise that resolves to the contract ABI.
  */
-export const getContractABI = (
+export const getContractABI = async (
+  contractId: string,
+  apiKey: string
+): Promise<ContractAbi> => {
+  const response = await axios.get<{
+    message: string;
+    result: string;
+    status: string;
+  }>(
+    `${URL}?module=contract&action=getabi&address=${contractId}&apikey=${apiKey}`
+  );
+  const data: ContractAbi = JSON.parse(response.data.result);
+  return data;
+};
+
+/**
+ * Retrieves a contract model for the specified contract ID using the provided API key.
+ *
+ * @param contractId - The address of the Ethereum contract.
+ * @param apiKey - The API key to use for the BSCScan API request.
+ * @returns A Promise that resolves to a `ContractModel` instance, which encapsulates the contract and Web3 instance.
+ */
+export const getContractModel = async (
   contractId: string,
   apiKey: string
 ): Promise<ContractModel> => {
-  return axios
-    .get<{ message: string; result: string; status: string }>(
-      `${URL}?module=contract&action=getabi&address=${contractId}&apikey=${apiKey}`
-    )
-    .then((response) => {
-      const data: ContractAbi = JSON.parse(response.data.result);
-      const web3 = new Web3(
-        new Web3.providers.HttpProvider(
-          'https://data-seed-prebsc-1-s1.binance.org:8545'
-        )
-      );
+  return getContractABI(contractId, apiKey).then((abi) => {
+    return convertABIToContract(abi, contractId);
+  });
+};
 
-      const contract: Contract<ContractAbi> = new web3.eth.Contract(
-        data as ContractAbi,
-        contractId
-      );
-      return new ContractModel(contract, web3);
-    });
+/**
+ * Converts the provided contract ABI (Application Binary Interface) to a Web3 contract instance.
+ *
+ * @param data - The contract ABI data.
+ * @param contractId - The address of the Ethereum contract.
+ * @returns A `ContractModel` instance, which encapsulates the contract and Web3 instance.
+ */
+export const convertABIToContract = (data: ContractAbi, contractId: string) => {
+  const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER_URI));
+
+  const contract: Contract<ContractAbi> = new web3.eth.Contract(
+    data as ContractAbi,
+    contractId
+  );
+  return new ContractModel(contract, web3);
 };

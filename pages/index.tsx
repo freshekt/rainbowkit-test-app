@@ -5,42 +5,46 @@ import styles from '../styles/Home.module.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useQuery } from '@tanstack/react-query';
-import { getContractABI } from '../shared/services/bscscan.service';
+import {
+  convertABIToContract,
+  getContractABI,
+  getContractModel,
+} from '../shared/services/bscscan.service';
 import { ContractModel } from '../shared/models/contract.model';
 import Main from './Main';
+import { ContractAbi } from 'web3';
+import { useEffect, useRef, useState } from 'react';
 
 type Props = {
+  abi: ContractAbi;
   contractId: string | undefined;
-  apiKey: string | undefined;
 };
 
 export const getServerSideProps = (async () => {
-  return Promise.resolve({
+  const abi = await getContractABI(
+    process.env.REACT_APP_SMART_CONTRACT_ID || '',
+    process.env.REACT_APP_API_KEY || ''
+  );
+  return {
     props: {
+      abi,
       contractId: process.env.REACT_APP_SMART_CONTRACT_ID,
-      apiKey: process.env.REACT_APP_API_KEY,
     },
-  });
+  };
 }) satisfies GetServerSideProps<Props>;
 
 export default function Home({
+  abi,
   contractId,
-  apiKey,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const {
-    isLoading,
-    isError,
-    data: contract,
-    error,
-    refetch,
-  } = useQuery<ContractModel, Error>({
-    queryKey: ['contract', contractId, apiKey],
-    queryFn: () => getContractABI(contractId || '', apiKey || ''),
-  });
+  const [contract, setContract] = useState<ContractModel | undefined>();
 
-  if (isError) {
-    toast.error(error.message);
-  }
+  useEffect(() => {
+    if (abi && contractId) {
+      const newContract = convertABIToContract(abi, contractId);
+      setContract(newContract);
+    }
+  }, [abi, contractId]);
 
   return (
     <div className={styles.container}>
