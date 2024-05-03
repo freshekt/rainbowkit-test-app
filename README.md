@@ -2,6 +2,9 @@ This is a [RainbowKit](https://rainbowkit.com) + [wagmi](https://wagmi.sh) + [Ne
 
 ## Getting Started
 
+set REACT_APP_API_KEY - api key of bscscan.com  
+set REACT_APP_SMART_CONTRACT_ID - id of smart contract on bscscan.com
+
 First, run the development server:
 
 ```bash
